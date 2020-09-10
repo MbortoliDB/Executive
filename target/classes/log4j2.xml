@@ -16,6 +16,12 @@
         <logger name="parser.Parser" level="trace" additivity="false">
             <AppenderRef ref="traceConsole"/>
         </logger>
+        <logger name="general.MyMain" level="trace" additivity="false">
+            <AppenderRef ref="traceConsole"/>
+        </logger>
+        <logger name="encoding.Encoder" level="trace" additivity="false">
+            <AppenderRef ref="traceConsole"/>
+        </logger>
         <Root level="error">
             <AppenderRef ref="defaultConsole"/>
         </Root>

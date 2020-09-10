@@ -17,7 +17,7 @@
  * along with PDDL4J.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package fr.uga.pddl4j.exceptions;
+package exceptions;
 
 /**
  * Exception use for issues with unexpected expression.
