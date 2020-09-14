@@ -287,6 +287,9 @@ public final class Encoder implements Serializable {
         adl.add(RequireKey.DURATION_INEQUALITIES); //ADDED BY MARCO
         adl.add(RequireKey.PREFERENCES); //ADDED BY MARCO
         adl.add(RequireKey.CONSTRAINTS); //ADDED BY MARCO
+        adl.add(RequireKey.FLUENTS); //ADDED BY MARCO
+        adl.add(RequireKey.NUMERIC_FLUENTS); //ADDED BY MARCO
+        adl.add(RequireKey.OBJECT_FLUENTS); //ADDED BY MARCO
 
         LOGGER.trace("step1\n");
 
@@ -295,6 +298,7 @@ public final class Encoder implements Serializable {
         requirements.addAll(problem.getRequirements());
         for (RequireKey rk : requirements) {
             if (!adl.contains(rk)) {
+                LOGGER.trace("RK  "+rk.toString());
                 throw new IllegalArgumentException("problem to encode not ADL and ACTION_COSTS");
             }
         }

@@ -92,8 +92,9 @@
    (stage_c0_3 p1)
 )
 
-(:constraints 
-	(preference p1 (sometime-after (locked cs1) (n_locked cs1)))
+(:constraints (and
+	(sometime-before (locked cs1) (n_locked cs1))
+	(preference p1 (sometime-after (locked cs1) (n_locked cs1))))
 ) 
 
 

@@ -3,6 +3,7 @@ package general;
 import encoding.CodedProblem;
 import encoding.Encoder;
 import parser.Domain;
+import parser.Exp;
 import parser.Parser;
 
 import java.io.FileNotFoundException;
@@ -24,12 +25,22 @@ public class MyMain {
         Parser parser = new Parser();
 
 
-        parser.parserMain(domainS, problemS);
+        //parser.parserMain(domainS, problemS);
+
+        try {
+            parser.parse(domainS,problemS);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         LOGGER.trace("parsed\n");
 
 
         Problem p = parser.getProblem();
+
+        Exp cons = p.getConstraints();
+
+        LOGGER.trace("constr" + cons.toString() +"\n");
 
         LOGGER.trace(p.toString()+"\n");
 

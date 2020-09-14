@@ -249,7 +249,7 @@ public class Problem implements Serializable {
      * @param constraints the constraints to set.
      */
     public final void setConstraints(final Exp constraints) {
-        this.constraints = constraints; System.out.println("SETTING THE CONSTRAINTS");
+        this.constraints = constraints;
     }
 
     /**

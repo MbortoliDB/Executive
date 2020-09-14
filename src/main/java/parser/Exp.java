@@ -661,6 +661,9 @@ public class Exp implements Serializable {
             throw new MalformedExpException("Expression " + this.getConnective() + " is malformed");
         }
         StringBuilder str = new StringBuilder();
+        if (this.prefName != null) {
+            str.append("( preference " + this.prefName + " ");
+        }
         switch (this.connective) {
             case ATOM:
             case FN_HEAD:
@@ -750,8 +753,7 @@ public class Exp implements Serializable {
                 str.append("(")
                     .append(this.getConnective().getImage()).append(" ")
                     .append(this.children.get(0).toString(baseOffset)).append(" ")
-                    .append(this.children.get(1).toString(baseOffset))
-                    .append(")");
+                    .append(this.children.get(1).toString(baseOffset));
                 break;
             case NOT:
             case UMINUS:
@@ -804,6 +806,9 @@ public class Exp implements Serializable {
             default:
                 // do nothing
 
+        }
+        if (this.prefName != null) {
+            str.append(")");
         }
         return str.toString();
     }
