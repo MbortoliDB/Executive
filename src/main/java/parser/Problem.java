@@ -249,7 +249,7 @@ public class Problem implements Serializable {
      * @param constraints the constraints to set.
      */
     public final void setConstraints(final Exp constraints) {
-        this.constraints = constraints;
+        this.constraints = constraints; System.out.println("SETTING THE CONSTRAINTS");
     }
 
     /**
@@ -295,6 +295,12 @@ public class Problem implements Serializable {
             this.getConstraints().moveNegationInward();
         }
         // Rename the goal of the problem
+        if (this.getGoal() == null){
+            System.out.println("NULL GOALL");
+        }
+
+
+
         this.getGoal().renameVariables();
         this.getGoal().moveNegationInward();
     }

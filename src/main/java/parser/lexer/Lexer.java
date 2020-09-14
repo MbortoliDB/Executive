@@ -291,6 +291,7 @@ this.problem = new Problem(name);
       }
       init();
       goal();
+      System.out.println("I AM HERE 1\n");
       if (jj_2_17(2) && (this.isRequirement(RequireKey.CONSTRAINTS))) {
         pddl_const(Lexer.PARSER_PROBLEM);
       } else {
@@ -3498,8 +3499,10 @@ this.problem = new Problem(name);
       }
       init();
       goal();
-      if (jj_2_195(2) && (this.isRequirement(RequireKey.CONSTRAINTS))) {
-        pddl_const(Lexer.PARSER_PROBLEM);
+        System.out.println("I AM HERE 2\n");
+      if (jj_2_195(2)    && (this.isRequirement(RequireKey.CONSTRAINTS))) {
+          System.out.println("I AM HERE 3\n");
+          pddl_const(Lexer.PARSER_PROBLEM);
       } else {
         ;
       }
@@ -3664,6 +3667,7 @@ this.error(e, token.beginLine, token.beginColumn);
     try {
       jj_consume_token(LEFT_BRACKET);
       jj_consume_token(CONSTRAINTS);
+      System.out.println("CONSUMING THE TOKEN");
       conGD = pref_con_gd();
       right_bracket();
 if (type == Lexer.PARSER_DOMAIN) {

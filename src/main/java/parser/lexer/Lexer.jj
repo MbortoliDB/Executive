@@ -24,21 +24,21 @@ options {
 
 PARSER_BEGIN(Lexer)
 
-package fr.uga.pddl4j.parser.lexer;
+package parser.lexer;
 
-import fr.uga.pddl4j.parser.Connective;
-import fr.uga.pddl4j.parser.DerivedPredicate;
-import fr.uga.pddl4j.parser.ErrorManager;
-import fr.uga.pddl4j.parser.Parser;
-import fr.uga.pddl4j.parser.Exp;
-import fr.uga.pddl4j.parser.Domain;
-import fr.uga.pddl4j.parser.Problem;
-import fr.uga.pddl4j.parser.NamedTypedList;
-import fr.uga.pddl4j.parser.Op;
-import fr.uga.pddl4j.parser.Method;
-import fr.uga.pddl4j.parser.RequireKey;
-import fr.uga.pddl4j.parser.Symbol;
-import fr.uga.pddl4j.parser.TypedSymbol;
+import parser.Connective;
+import parser.DerivedPredicate;
+import parser.ErrorManager;
+import parser.Parser;
+import parser.Exp;
+import parser.Domain;
+import parser.Problem;
+import parser.NamedTypedList;
+import parser.Op;
+import parser.Method;
+import parser.RequireKey;
+import parser.Symbol;
+import parser.TypedSymbol;
 
 import java.io.FileInputStream;
 import java.io.File;

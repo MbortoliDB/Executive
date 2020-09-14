@@ -1,5 +1,5 @@
 (define (domain rcll)
- (:requirements :strips :typing :durative-actions :fluents :preferences :ADL)
+ (:requirements :strips :typing :durative-actions :preferences :constraints)
  (:types base_station cap_station_input cap_station_output cap_station_shelf delivery_station starting - location
    location cap_station - station
    robot product)

@@ -283,12 +283,16 @@ public final class Encoder implements Serializable {
         adl.add(RequireKey.QUANTIFIED_PRECONDITIONS);
         adl.add(RequireKey.CONDITIONAL_EFFECTS);
         adl.add(RequireKey.ACTION_COSTS);
+        adl.add(RequireKey.DURATIVE_ACTIONS); //ADDED BY MARCO
+        adl.add(RequireKey.DURATION_INEQUALITIES); //ADDED BY MARCO
+        adl.add(RequireKey.PREFERENCES); //ADDED BY MARCO
+        adl.add(RequireKey.CONSTRAINTS); //ADDED BY MARCO
 
         LOGGER.trace("step1\n");
 
         Set<RequireKey> requirements = new LinkedHashSet<>();
-        //requirements.addAll(domain.getRequirements());
-        //requirements.addAll(problem.getRequirements());
+        requirements.addAll(domain.getRequirements());
+        requirements.addAll(problem.getRequirements());
         for (RequireKey rk : requirements) {
             if (!adl.contains(rk)) {
                 throw new IllegalArgumentException("problem to encode not ADL and ACTION_COSTS");

@@ -1241,7 +1241,29 @@ public final class Parser {
      * </pre>
      *
      * @param args the arguments of the command line.
+     *
      */
+    public void parserMain(String domain,String problem) {
+        final StringBuilder strb = new StringBuilder();
+        strb.append("Parsed files ").append("\"").append(domain).append("\" and ").append("\"").append(problem)
+                .append("\": ");
+        Parser parser = new Parser();
+        try {
+            parser.parse(domain, problem);
+        } catch (FileNotFoundException fnfException) {
+            LOGGER.error("domain or problem missing", fnfException);
+        }
+        if (parser.mgr.isEmpty()) {
+            strb.append("ok");
+        } else {
+            strb.append("not ok");
+            parser.mgr.printAll();
+        }
+
+    }
+
+
+
     public static void main(String[] args) {
 
 

@@ -85,16 +85,17 @@
 )
 
 
-(:constraints 
-	(preference p1	(always-within 30 (locked cs1) (n_locked cs1)))
-
-)  
+ 
  
 
-(:goal (and
+(:goal 
    (stage_c0_3 p1)
 )
-)
+
+(:constraints 
+	(preference p1 (sometime-after (locked cs1) (n_locked cs1)))
+) 
+
 
 (:metric minimize  (total-time) )
 

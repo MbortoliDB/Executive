@@ -19,16 +19,21 @@ public class MyMain {
         String domainS = args[0];
         String problemS = args[1];
 
+        final StringBuilder strb = new StringBuilder();
+
         Parser parser = new Parser();
-        try {
-            parser.parse(domainS, problemS);
-        } catch (FileNotFoundException fnfException) {
-            LOGGER.error("parsing problem error", fnfException);
-        }
+
+
+        parser.parserMain(domainS, problemS);
 
         LOGGER.trace("parsed\n");
 
-        Encoder.setLogLevel(2);
+
+        Problem p = parser.getProblem();
+
+        LOGGER.trace(p.toString()+"\n");
+
+        //Encoder.setLogLevel(2);
 
         final Domain domain = parser.getDomain();
         final Problem problem = parser.getProblem();
@@ -38,12 +43,6 @@ public class MyMain {
         } catch (IllegalArgumentException ilException) {
             LOGGER.error("the problem to encode is not ADL, \":requirements\" not supported at this time\n");
         }
-
-        System.out.println("working");
-
-
-
-        LOGGER.trace("working");
 
     }
 
