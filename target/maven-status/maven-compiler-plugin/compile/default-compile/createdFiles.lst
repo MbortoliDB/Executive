@@ -46,6 +46,7 @@ encoding/Inertia.class
 parser/Connective.class
 encoding/Instantiation$1.class
 encoding/IntEncoding$1.class
+planner/Planner.class
 parser/Symbol$Kind.class
 encoding/PostInstantiation$1.class
 parser/lexer/Lexer$LookaheadSuccess.class

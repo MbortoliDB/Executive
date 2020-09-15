@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import parser.Problem;
+import planner.Planner;
 
 
 public class MyMain {
@@ -40,7 +41,7 @@ public class MyMain {
 
         Exp cons = p.getConstraints();
 
-        LOGGER.trace("constr" + cons.toString() +"\n");
+        //LOGGER.trace("constr" + cons.toString() +"\n");
 
         LOGGER.trace(p.toString()+"\n");
 
@@ -54,6 +55,9 @@ public class MyMain {
         } catch (IllegalArgumentException ilException) {
             LOGGER.error("the problem to encode is not ADL, \":requirements\" not supported at this time\n");
         }
+
+        Planner pl = new Planner(domainS,problemS);
+        pl.plan();
 
     }
 
