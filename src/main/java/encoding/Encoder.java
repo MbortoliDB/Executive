@@ -479,13 +479,13 @@ public final class Encoder implements Serializable {
         LOGGER.trace("Step 6\n");
 
         //THE LAST STEP SEEMS TO NOT WORKING PROPERLY WITH TEMPORAL DOMAINS
-        /*
+
 
         // *****************************************************************************************
         // Step 6: Finalization and bit set encoding of the problem
         // *****************************************************************************************
 
-
+        /*
         // Create a map of the relevant facts with their index to speedup the bit set encoding of
         // the operators
         final Map<IntExp, Integer> map = new LinkedHashMap<>(Encoder.tableOfRelevantFacts.size());
@@ -539,7 +539,8 @@ public final class Encoder implements Serializable {
             stringBuilder.setLength(0);
         }
 
-        */
+    */
+
 
         final CodedProblem codedProblem = new CodedProblem();
         codedProblem.setGoal(Encoder.goal);

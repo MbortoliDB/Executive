@@ -2,15 +2,16 @@ package general;
 
 import encoding.CodedProblem;
 import encoding.Encoder;
-import parser.Domain;
-import parser.Exp;
-import parser.Parser;
+import parser.*;
 
 import java.io.FileNotFoundException;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import parser.Problem;
 import planner.Planner;
+import util.BitOp;
 
 
 public class MyMain {
@@ -52,12 +53,21 @@ public class MyMain {
         CodedProblem cp;
         try {
             cp = Encoder.encode(domain, problem);
+            List<Op> op = domain.getOperators();
+            Iterator<Op> it = op.iterator();
+            while (it.hasNext())
+               LOGGER.trace("name " + it.next().getParameters() + "\n");
+
+
+
         } catch (IllegalArgumentException ilException) {
             LOGGER.error("the problem to encode is not ADL, \":requirements\" not supported at this time\n");
         }
 
+
+
         Planner pl = new Planner(domainS,problemS);
-        pl.plan();
+        //pl.plan();
 
     }
 

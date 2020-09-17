@@ -260,7 +260,7 @@ final class BitEncoding implements Serializable {
                     }
                 } else if (ei.getConnective().equals(Connective.TRUE)) {
                     // do nothing
-                } else {
+                } else {        //ADD CASE CONNECTIVE.ATSTART
                     throw new UnexpectedExpressionException(Encoder.toString(exp));
                 }
             }
@@ -342,6 +342,7 @@ final class BitEncoding implements Serializable {
      * @param exp the expression to transform in CNF.
      */
     private static void toCNF(final IntExp exp) throws UnexpectedExpressionException {
+        System.out.println("++++++++++++connective " + exp.getConnective());
         switch (exp.getConnective()) {
             case WHEN:
                 final IntExp antecedent = exp.getChildren().get(0);
