@@ -32,7 +32,7 @@ import java.util.Arrays;
  * @author D. Pellier
  * @version 1.0 - 07.04.2010
  */
-final class IntOp extends AbstractCodedOp {
+final public class IntOp extends AbstractCodedOp {
 
     /**
      * The serial version id of the class.

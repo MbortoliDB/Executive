@@ -15,6 +15,8 @@
 
 package util;
 
+import encoding.IntOp;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -40,7 +42,7 @@ public class TemporalPlan extends AbstractPlan {
     /**
      * The list used to store the actions contained in the plan.
      */
-    private TreeMap<Integer, Set<BitOp>> actions;
+    private TreeMap<Double, Set<IntOp>> actions;
 
     /**
      * Creates a new empty temporal plan.
@@ -72,9 +74,9 @@ public class TemporalPlan extends AbstractPlan {
     public final double makespan() {
         double makespan = 0.0;
         if (!this.isEmpty()) {
-            final int start = this.actions.firstKey();
-            final int last = this.actions.lastKey();
-            final BitOp action = this.actions.lastEntry().getValue().stream().max(
+            final double start = this.actions.firstKey();
+            final double last = this.actions.lastKey();
+            final IntOp action = this.actions.lastEntry().getValue().stream().max(
                 Comparator.comparing(a -> a.getDuration())).get();
             makespan = last + action.getDuration() - start;
         }
@@ -88,10 +90,8 @@ public class TemporalPlan extends AbstractPlan {
      * @see Plan#actions()
      */
     @Override
-    public final List<BitOp> actions() {
-        final List<BitOp> acts = new ArrayList<>();
-        this.actions.forEach(acts::addAll);
-        return acts;
+    public final TreeMap<Double, Set<IntOp>> actions() {
+        return actions;
     }
 
     /**
@@ -101,7 +101,7 @@ public class TemporalPlan extends AbstractPlan {
      * @see Plan#timeSpecifiers()
      */
     @Override
-    public final Set<Integer> timeSpecifiers() {
+    public final Set<Double> timeSpecifiers() {
         return this.actions.keySet();
     }
 
@@ -111,10 +111,10 @@ public class TemporalPlan extends AbstractPlan {
      * @param time the time specifier.
      * @return the set of actions at a specified time specifier or null if no actions are scheduled in the plan at the
      *          the time specifier.
-     * @see Plan#getActionSet(int)
+     * @see Plan#getActionSet(double)
      */
     @Override
-    public final Set<BitOp> getActionSet(final int time) {
+    public final Set<IntOp> getActionSet(final double time) {
         return this.actions.get(time);
     }
 
@@ -124,13 +124,13 @@ public class TemporalPlan extends AbstractPlan {
      * @param action the action to add.
      * @param time   the time specifier of the action in the plan.
      * @return <code>true</code> if the action was added; <code>false</code> otherwise.
-     * @see Plan#add(int, BitOp)
+     * @see Plan#add(double, IntOp)
      */
     @Override
-    public final boolean add(final int time, final BitOp action) {
-        Set<BitOp> set = this.actions.get(time);
+    public final boolean add(final double time, final IntOp action) {
+        Set<IntOp> set = this.actions.get(time);
         if (set == null) {
-            set = new HashSet<BitOp>();
+            set = new HashSet<IntOp>();
             this.actions.put(time, set);
         }
         return set.add(action);
@@ -141,10 +141,10 @@ public class TemporalPlan extends AbstractPlan {
      *
      * @param action the action to remove.
      * @param time   the time specifier of the action in the plan to remove.
-     * @see Plan#remove(int, BitOp)
+     * @see Plan#remove(double, IntOp)
      */
     @Override
-    public final boolean remove(final int time, final BitOp action) {
+    public final boolean remove(final double time, final IntOp action) {
         return this.actions.get(time).remove(action);
     }
 
@@ -152,10 +152,10 @@ public class TemporalPlan extends AbstractPlan {
      * Removes all the actions at a specified time specifier of the plan.
      *
      * @param time the time specifier of the actions in the plan to remove.
-     * @see Plan#remove(int)
+     * @see Plan#remove(double)
      */
     @Override
-    public final boolean remove(final int time) {
+    public final boolean remove(final double time) {
         return this.actions.remove(time) != null;
     }
 
@@ -166,11 +166,11 @@ public class TemporalPlan extends AbstractPlan {
      * @param action the action.
      * @return <code>true</code> if the specified action is contained in the plan at the specified time specifier;
      * <code>false</code> otherwise.
-     * @see Plan#contains(int, BitOp)
+     * @see Plan#contains(double, IntOp)
      */
     @Override
-    public final boolean contains(final int time, final BitOp action) {
-        final Set<BitOp> set = this.actions.get(time);
+    public final boolean contains(final double time, final IntOp action) {
+        final Set<IntOp> set = this.actions.get(time);
         return set != null && set.contains(action);
     }
 

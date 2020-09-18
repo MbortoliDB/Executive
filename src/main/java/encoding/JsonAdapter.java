@@ -96,6 +96,9 @@ public class JsonAdapter implements Serializable {
      * @return the plan in a json string format.
      */
     @SuppressWarnings("unchecked")
+
+    //MARCO: COMMENTING PLAN PRINTING FOR THE MOMENT, WE NEED TO CONVERT EVERYTHING FROM BIT TO INT
+    /*
     public final String toJsonString(final Plan plan) {
 
         JSONObject planJson = new JSONObject();
@@ -186,7 +189,7 @@ public class JsonAdapter implements Serializable {
         this.jsonPlan = planJson;
         return planJson.toJSONString();
     }
-
+    */
     /**
      * Convert a BitExp into a String collection.
      *

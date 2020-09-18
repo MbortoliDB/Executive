@@ -14,10 +14,9 @@ util/TemporalPlan.class
 exceptions/FatalException.class
 util/BitMatrix.class
 parser/Message.class
-encoding/BitEncoding.class
 parser/lexer/Token.class
 parser/ErrorManager.class
-util/ParallelPlan.class
+temporalgraph/TemporalGraph.class
 fr/uga/pddl4j/exceptions/FileException.class
 encoding/CodedProblem.class
 encoding/IntEncoding.class
@@ -27,10 +26,10 @@ util/IntExp.class
 parser/Message$Type.class
 exceptions/UnexpectedExpressionException.class
 parser/Op.class
-util/SequentialPlan.class
 fr/uga/pddl4j/exceptions/UsageException.class
 exceptions/MalformedExpException.class
 parser/TypedSymbol.class
+temporalgraph/TemporalEdge.class
 encoding/Encoder.class
 parser/lexer/Lexer.class
 encoding/Instantiation.class
@@ -38,6 +37,7 @@ encoding/Constants.class
 exceptions/NullParameterException.class
 parser/Symbol.class
 encoding/StringEncoder.class
+temporalgraph/TemporalNode.class
 util/CondBitExp.class
 util/AbstractCodedOp.class
 util/BitOp.class
@@ -68,5 +68,4 @@ util/BitVector.class
 encoding/PostInstantiation.class
 encoding/PreInstantiation.class
 parser/RequireKey.class
-encoding/BitEncoding$1.class
 fr/uga/pddl4j/exceptions/EncodeOperatorException.class

@@ -100,7 +100,7 @@ public class CodedProblem implements Serializable {
     /**
      * The list of instantiated operator encoded into bit sets.
      */
-    private List<BitOp> operators;
+    private List<IntOp> operators;
 
     /**
      * The goal.
@@ -153,7 +153,7 @@ public class CodedProblem implements Serializable {
         this.relevantFacts = new ArrayList<>();
         this.relevantFacts.addAll(other.relevantFacts.stream().map(IntExp::new).collect(Collectors.toList()));
         this.operators = new ArrayList<>();
-        this.operators.addAll(other.operators.stream().map(BitOp::new).collect(Collectors.toList()));
+        this.operators.addAll(other.operators.stream().map(IntOp::new).collect(Collectors.toList()));
         this.goal = new BitExp(other.goal);
         this.init = new BitExp(other.init);
     }
@@ -343,7 +343,7 @@ public class CodedProblem implements Serializable {
      *
      * @return the list of instantiated operators of the problem.
      */
-    public final List<BitOp> getOperators() {
+    public final List<IntOp> getOperators() {
         return operators;
     }
 
@@ -352,7 +352,7 @@ public class CodedProblem implements Serializable {
      *
      * @param operators the list of instantiated operators of the problem.
      */
-    final void setOperators(final List<BitOp> operators) {
+    public final void setOperators(final List<IntOp> operators) {
         this.operators = operators;
     }
 
@@ -409,7 +409,7 @@ public class CodedProblem implements Serializable {
      * @param op the operator.
      * @return a string representation of the specified operator.
      */
-    public final String toShortString(final BitOp op) {
+    public final String toShortString(final IntOp op) {
         return StringEncoder.toShortString(op, this.constants);
     }
 
@@ -488,8 +488,8 @@ public class CodedProblem implements Serializable {
      */
     public final String toString(final Plan plan) {
         int max = Integer.MIN_VALUE;
-        for (Integer t : plan.timeSpecifiers()) {
-            for (BitOp a : plan.getActionSet(t)) {
+        for (Double t : plan.timeSpecifiers()) {
+            for (IntOp a : plan.getActionSet(t)) {
                 int length = this.toShortString(a).length();
                 if (max < length) {
                     max = length;
@@ -515,8 +515,8 @@ public class CodedProblem implements Serializable {
      */
     public final String toStringCost(final Plan plan) {
         int max = Integer.MIN_VALUE;
-        for (Integer t : plan.timeSpecifiers()) {
-            for (BitOp a : plan.getActionSet(t)) {
+        for (Double t : plan.timeSpecifiers()) {
+            for (IntOp a : plan.getActionSet(t)) {
                 int length = this.toShortString(a).length();
                 if (max < length) {
                     max = length;

@@ -15,6 +15,8 @@
 
 package util;
 
+import encoding.IntOp;
+
 /**
  * This abstract class implements the main methods of a search.
  *
@@ -38,7 +40,7 @@ public abstract class AbstractPlan implements Plan {
      */
     protected AbstractPlan(final Plan other) {
         this();
-        other.timeSpecifiers().forEach(t -> other.getActionSet(t).forEach(a -> this.add(t, new BitOp(a))));
+        other.timeSpecifiers().forEach(t -> other.getActionSet(t).forEach(a -> this.add(t, new IntOp(a))));
     }
 
     /**

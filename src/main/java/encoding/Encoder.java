@@ -33,14 +33,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * <p>
@@ -200,7 +194,7 @@ public final class Encoder implements Serializable {
     /**
      * The list of instantiated operator encoded into bit sets.
      */
-    static List<BitOp> operators;
+    static List<IntOp> operators;
 
     /**
      * The goal.
@@ -376,6 +370,8 @@ public final class Encoder implements Serializable {
         // Step 3: PreInstantiation
         // *****************************************************************************************
 
+        /*
+
         // Computed inertia from the encode operators
         PreInstantiation.extractInertia(intOps);
         // Infer the type from the unary inertia
@@ -413,6 +409,12 @@ public final class Encoder implements Serializable {
         }
 
         LOGGER.trace("Step 4\n");
+
+
+
+        //MARCO: skip instantiation and postinstantiation, grounding already performed by external planner
+
+
 
         // *****************************************************************************************
         // Step 4: Instantiation
@@ -476,9 +478,15 @@ public final class Encoder implements Serializable {
             stringBuilder.setLength(0);
         }
 
+        */
+
         LOGGER.trace("Step 6\n");
 
-        //THE LAST STEP SEEMS TO NOT WORKING PROPERLY WITH TEMPORAL DOMAINS
+        //LOGGER.trace("operators" + intOps);
+
+
+
+        //MARCO: THE LAST STEP SEEMS TO NOT WORKING PROPERLY WITH TEMPORAL DOMAINS
 
 
         // *****************************************************************************************
@@ -541,7 +549,7 @@ public final class Encoder implements Serializable {
 
     */
 
-
+        Encoder.operators = intOps;
         final CodedProblem codedProblem = new CodedProblem();
         codedProblem.setGoal(Encoder.goal);
         codedProblem.setInit(Encoder.init);
