@@ -8,11 +8,11 @@ public class TemporalEdge extends DefaultEdge {
     private double ub;
     private int type;   //1 -> conditional edge   2 -> start_end  3 -> interference
 
-    //creating conditional edge
-    public TemporalEdge (double lb,double ub) {
+    //creating conditional or start-end edge
+    public TemporalEdge (double lb,double ub,int type) {
         this.lb = lb;
         this.ub = ub;
-        this.type = 1;
+        this.type = type;
     }
 
     //creating interference edge

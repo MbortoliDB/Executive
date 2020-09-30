@@ -83,12 +83,27 @@ public class MyMain {
 
             //plan.add(10,n);
 
+            pl.printPlan();
 
-            //Set<IntOp> s = plan.getActionSet(5);
+            Set<IntOp> s = pl.getPlan().getActionSet(0);
+
+
+            StringBuilder stringBuilder = new StringBuilder();
+            Encoder.printTableOfConstants(stringBuilder);
+            LOGGER.trace("predicates table " + stringBuilder);
+
+
+
+            Iterator<IntOp> acs = s.iterator();
+            while(acs.hasNext()){
+                //LOGGER.trace("preconditions " + acs.next().getEffects().getConnective().toString() + "\n");
+                acs.next().generateLists();
+            }
+
 
             //LOGGER.trace("plan " + s);
 
-            LOGGER.trace("objects" + cp.getConstants() + "\n");
+            //LOGGER.trace("objects" + cp.getConstants() + "\n");
 
 
 

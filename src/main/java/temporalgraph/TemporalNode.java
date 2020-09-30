@@ -5,6 +5,7 @@ public class TemporalNode {
     private int type; //1->action start 2->action end 3->plan start
     private String name;
     private int id;
+    private int [] instantiation;
 
     public TemporalNode(int type, String name, int id) {
         this.type = type;
@@ -24,6 +25,10 @@ public class TemporalNode {
         return name;
     }
 
+    public int[] getInstantiation() {
+        return instantiation;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -36,5 +41,12 @@ public class TemporalNode {
         this.id = id;
     }
 
-    //TODO create custom equals/hashcode to speed up search
+    public String toString () {
+        return name;
+    }
+
+    public void setInstantiation(int[] instantiation) {
+        this.instantiation = instantiation;
+    }
+//TODO create custom equals/hashcode to speed up search
 }

@@ -23,7 +23,11 @@ import parser.Connective;
 import util.AbstractCodedOp;
 import util.IntExp;
 
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This class implements an operator. This class is used to store compact representation of operator
@@ -48,6 +52,21 @@ final public class IntOp extends AbstractCodedOp {
      * The expression that represents the effect of the operator.
      */
     private IntExp effects;
+
+
+    //by marco: list representation for effects and preconditions depending on their type. The contained intexp are atomic predicates
+    private List<IntExp> neg_pred_atstart;
+    private List<IntExp> pos_pred_atstart;
+
+    private List<IntExp> neg_pred_atend;
+    private List<IntExp> pos_pred_atend;
+
+    private List<IntExp> neg_pred_overall;
+    private List<IntExp> pos_pred_overall;
+
+
+
+
 
     /**
      * Create a new operator from a specified operator. This constructor create a deep copy of the
@@ -179,6 +198,111 @@ final public class IntOp extends AbstractCodedOp {
         result = prime * result + Arrays.hashCode(instantiations);
         result = prime * result + name.hashCode();
         return result;
+    }
+
+
+
+    public void generateLists () {
+        neg_pred_atstart = new ArrayList<IntExp>();
+        pos_pred_atstart = new ArrayList<IntExp>();
+        neg_pred_atend = new ArrayList<IntExp>();
+        pos_pred_atend = new ArrayList<IntExp>();
+        neg_pred_overall = new ArrayList<IntExp>();
+        pos_pred_overall = new ArrayList<IntExp>();
+        switch (preconditions.getConnective()){
+            case AND:
+                List<IntExp> children = preconditions.getChildren();
+                Iterator<IntExp> it = children.iterator();
+                while(it.hasNext()){
+                    collect_pred_atom(it.next());
+                }
+                break;
+
+            default:
+                System.out.println(preconditions.getConnective().toString());
+                break;
+        }
+    }
+
+    private void collect_pred_atom(IntExp atom) {
+        if (atom.getChildren().size() > 1)
+            System.out.println("ERROR: temporal atom has more than 1 children ");
+        else {
+            IntExp atom2 = atom.getChildren().get(0);
+            switch (atom.getConnective()) {
+                case AT_START:
+                    switch (atom2.getConnective()) {
+                        case NOT:   //negative atom
+                            //System.out.println("trying to add neg "+ atom2.getChildren().get(0).getPredicate());
+                            neg_pred_atstart.add(atom2.getChildren().get(0));
+                            break;
+                        case ATOM:    //positive atom
+                            //System.out.println("trying to add "+ atom2.getArguments()[0]);
+                            pos_pred_atstart.add(atom2);
+                            break;
+                        default:
+                            System.out.println("unexpected atom");
+                            break;
+                    }
+                    break;
+                case AT_END:
+                    switch (atom2.getConnective()) {
+                        case NOT:   //negative atom
+                            //System.out.println("trying to add neg end "+ atom2.getChildren().get(0).getPredicate());
+                            neg_pred_atend.add(atom2.getChildren().get(0));
+                            break;
+                        case ATOM:    //positive atom
+                            //System.out.println("trying to add "+ atom2.getArguments()[0]);
+                            pos_pred_atend.add(atom2);
+                            break;
+                        default:
+                            System.out.println("unexpected atom");
+                            break;
+                    }
+                    break;
+                case OVER_ALL:
+                    switch (atom2.getConnective()) {
+                        case NOT:   //negative atom
+                            neg_pred_overall.add(atom2.getChildren().get(0));
+                            break;
+                        case ATOM:    //positive atom
+                            pos_pred_overall.add(atom2);
+                            break;
+                        default:
+                            System.out.println("unexpected atom");
+                            break;
+                    }
+                    break;
+                default:
+                    System.out.println("unexpected atom in collect_atom");
+                    break;
+            }
+        }
+    }
+
+
+    public List<IntExp> getNeg_pred_atstart() {
+        return neg_pred_atstart;
+    }
+
+    public List<IntExp> getPos_pred_atstart() {
+        return pos_pred_atstart;
+    }
+
+    public List<IntExp> getNeg_pred_atend() {
+        return neg_pred_atend;
+    }
+
+    public List<IntExp> getPos_pred_atend() {
+        return pos_pred_atend;
+    }
+
+    public List<IntExp> getNeg_pred_overall() {
+        return neg_pred_overall;
+    }
+
+    public List<IntExp> getPos_pred_overall() {
+        return pos_pred_overall;
     }
 
 }

@@ -590,7 +590,7 @@ public final class Encoder implements Serializable {
     /**
      * Print the table of constants.
      */
-    static void printTableOfConstants(StringBuilder stringBuilder) {
+    public static void printTableOfConstants(StringBuilder stringBuilder) {
         stringBuilder.append("Constants table:\n");
         for (int i = 0; i < Encoder.tableOfConstants.size(); i++) {
             stringBuilder.append(i).append(": ").append(Encoder.tableOfConstants.get(i)).append("\n");
@@ -600,7 +600,7 @@ public final class Encoder implements Serializable {
     /**
      * Print the table of predicates.
      */
-    static void printTableOfPredicates(StringBuilder stringBuilder) {
+    public static void printTableOfPredicates(StringBuilder stringBuilder) {
         stringBuilder.append("Predicates table:\n");
         for (int i = 0; i < Encoder.tableOfPredicates.size(); i++) {
             String predicate = Encoder.tableOfPredicates.get(i);
