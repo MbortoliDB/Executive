@@ -64,7 +64,14 @@ final public class IntOp extends AbstractCodedOp {
     private List<IntExp> neg_pred_overall;
     private List<IntExp> pos_pred_overall;
 
+    private List<IntExp> neg_eff_atstart;
+    private List<IntExp> pos_eff_atstart;
 
+    private List<IntExp> neg_eff_atend;
+    private List<IntExp> pos_eff_atend;
+
+    private List<IntExp> neg_eff_overall;
+    private List<IntExp> pos_eff_overall;
 
 
 
@@ -209,12 +216,32 @@ final public class IntOp extends AbstractCodedOp {
         pos_pred_atend = new ArrayList<IntExp>();
         neg_pred_overall = new ArrayList<IntExp>();
         pos_pred_overall = new ArrayList<IntExp>();
+
+        neg_eff_atstart = new ArrayList<IntExp>();
+        pos_eff_atstart = new ArrayList<IntExp>();
+        neg_eff_atend = new ArrayList<IntExp>();
+        pos_eff_atend = new ArrayList<IntExp>();
+        neg_eff_overall = new ArrayList<IntExp>();
+        pos_eff_overall = new ArrayList<IntExp>();
         switch (preconditions.getConnective()){
             case AND:
                 List<IntExp> children = preconditions.getChildren();
                 Iterator<IntExp> it = children.iterator();
                 while(it.hasNext()){
-                    collect_pred_atom(it.next());
+                    collect_atom(it.next(), neg_pred_atstart, pos_pred_atstart, neg_pred_atend, pos_pred_atend, neg_pred_overall, pos_pred_overall);
+                }
+                break;
+
+            default:
+                System.out.println(preconditions.getConnective().toString());
+                break;
+        }
+        switch (effects.getConnective()){
+            case AND:
+                List<IntExp> children = effects.getChildren();
+                Iterator<IntExp> it = children.iterator();
+                while(it.hasNext()){
+                    collect_atom(it.next(), neg_eff_atstart, pos_eff_atstart, neg_eff_atend, pos_eff_atend, neg_eff_overall, pos_eff_overall);
                 }
                 break;
 
@@ -224,7 +251,8 @@ final public class IntOp extends AbstractCodedOp {
         }
     }
 
-    private void collect_pred_atom(IntExp atom) {
+    private void collect_atom(IntExp atom, List<IntExp> neg_atstart, List<IntExp> pos_atstart, List<IntExp> neg_atend, List<IntExp> pos_atend,
+                              List<IntExp> neg_overall, List<IntExp> pos_overall) {
         if (atom.getChildren().size() > 1)
             System.out.println("ERROR: temporal atom has more than 1 children ");
         else {
@@ -234,11 +262,11 @@ final public class IntOp extends AbstractCodedOp {
                     switch (atom2.getConnective()) {
                         case NOT:   //negative atom
                             //System.out.println("trying to add neg "+ atom2.getChildren().get(0).getPredicate());
-                            neg_pred_atstart.add(atom2.getChildren().get(0));
+                            neg_atstart.add(atom2.getChildren().get(0));
                             break;
                         case ATOM:    //positive atom
-                            //System.out.println("trying to add "+ atom2.getArguments()[0]);
-                            pos_pred_atstart.add(atom2);
+                            //System.out.println("trying to add "+ atom2.getPredicate());
+                            pos_atstart.add(atom2);
                             break;
                         default:
                             System.out.println("unexpected atom");
@@ -249,11 +277,11 @@ final public class IntOp extends AbstractCodedOp {
                     switch (atom2.getConnective()) {
                         case NOT:   //negative atom
                             //System.out.println("trying to add neg end "+ atom2.getChildren().get(0).getPredicate());
-                            neg_pred_atend.add(atom2.getChildren().get(0));
+                            neg_atend.add(atom2.getChildren().get(0));
                             break;
                         case ATOM:    //positive atom
-                            //System.out.println("trying to add "+ atom2.getArguments()[0]);
-                            pos_pred_atend.add(atom2);
+                            //System.out.println("trying to add "+ atom2.getPredicate());
+                            pos_atend.add(atom2);
                             break;
                         default:
                             System.out.println("unexpected atom");
@@ -263,10 +291,12 @@ final public class IntOp extends AbstractCodedOp {
                 case OVER_ALL:
                     switch (atom2.getConnective()) {
                         case NOT:   //negative atom
-                            neg_pred_overall.add(atom2.getChildren().get(0));
+                            //System.out.println("trying to add neg over "+ atom2.getChildren().get(0).getPredicate());
+                            neg_overall.add(atom2.getChildren().get(0));
                             break;
                         case ATOM:    //positive atom
-                            pos_pred_overall.add(atom2);
+                            //System.out.println("trying to add over"+ atom2.getPredicate());
+                            pos_overall.add(atom2);
                             break;
                         default:
                             System.out.println("unexpected atom");
@@ -305,4 +335,27 @@ final public class IntOp extends AbstractCodedOp {
         return pos_pred_overall;
     }
 
+    public List<IntExp> getNeg_eff_atstart() {
+        return neg_eff_atstart;
+    }
+
+    public List<IntExp> getPos_eff_atstart() {
+        return pos_eff_atstart;
+    }
+
+    public List<IntExp> getNeg_eff_atend() {
+        return neg_eff_atend;
+    }
+
+    public List<IntExp> getPos_eff_atend() {
+        return pos_eff_atend;
+    }
+
+    public List<IntExp> getNeg_eff_overall() {
+        return neg_eff_overall;
+    }
+
+    public List<IntExp> getPos_eff_overall() {
+        return pos_eff_overall;
+    }
 }

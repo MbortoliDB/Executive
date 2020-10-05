@@ -39,7 +39,7 @@
 (:durative-action move 
 	:parameters (?r - robot ?from ?to - location )
 	:duration (= ?duration (distance ?from ?to)) 
-	:condition (and (at start (at ?r ?from)) (at start (free ?r)) (at end (empty ?to) )  )
+	:condition (and (at start (at ?r ?from)) (at start (free ?r)) (at end (empty ?to) ) )
 	:effect (and
              (at start (not (at ?r ?from)))
              (at end (at ?r ?to))

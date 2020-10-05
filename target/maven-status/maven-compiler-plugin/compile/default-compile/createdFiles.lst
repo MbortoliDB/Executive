@@ -35,6 +35,7 @@ parser/lexer/Lexer.class
 encoding/Instantiation.class
 encoding/Constants.class
 exceptions/NullParameterException.class
+temporalgraph/ExtIntOp.class
 encoding/IntOp$1.class
 parser/Symbol.class
 encoding/StringEncoder.class

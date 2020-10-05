@@ -6,6 +6,7 @@ import encoding.IntOp;
 import parser.*;
 
 import java.io.FileNotFoundException;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -66,39 +67,51 @@ public class MyMain {
                 if (i.getName().equals("toy1"));
                     n = new IntOp(i);
                 //LOGGER.trace("name " + i.getName() + " ");
-                for(int j=0; j < i.getInstantiations().length; j++)
-                    LOGGER.trace(i.getInstantiations()[j] + " ");
+                //for(int j=0; j < i.getInstantiations().length; j++)
+                  //  LOGGER.trace(i.getInstantiations()[j] + " ");
                 //LOGGER.trace("\n");
             }
 
-
-            //TemporalPlan plan = new TemporalPlan();
-
-
             Planner pl = new Planner(domainS,problemS,cp);
             pl.plan();
+
+            StringBuilder b = new StringBuilder();
+            Encoder.printTableOfPredicates(b);
+            LOGGER.trace("+++++" + b);
+
+            Set<Double> keys = pl.getPlan().actions().keySet();
+            Iterator<Double> itk = keys.iterator();
+            while(itk.hasNext()) {
+                Set<IntOp> ita = pl.getPlan().getActionSet(itk.next());
+                Iterator<IntOp> acs = ita.iterator();
+                while(acs.hasNext()){
+                    //LOGGER.trace("preconditions " + acs.next().getEffects().getConnective().toString() + "\n");
+                    acs.next().generateLists();
+                }
+            }
+
+
+
+            LOGGER.trace("Generating temporal graph \n");
+
+            //pl.printPlan();
+
 
             TemporalGraph tg = new TemporalGraph(cp,pl.getPlan());
             tg.createTemporalGraph();
 
             //plan.add(10,n);
 
-            pl.printPlan();
-
-            Set<IntOp> s = pl.getPlan().getActionSet(0);
+            //pl.printPlan();
 
 
+
+            /*
             StringBuilder stringBuilder = new StringBuilder();
             Encoder.printTableOfConstants(stringBuilder);
             LOGGER.trace("predicates table " + stringBuilder);
+            */
 
-
-
-            Iterator<IntOp> acs = s.iterator();
-            while(acs.hasNext()){
-                //LOGGER.trace("preconditions " + acs.next().getEffects().getConnective().toString() + "\n");
-                acs.next().generateLists();
-            }
 
 
             //LOGGER.trace("plan " + s);

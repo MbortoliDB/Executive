@@ -17,13 +17,7 @@ package util;
 
 import encoding.IntOp;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * This class implements a temporal plan.
@@ -212,5 +206,32 @@ public class TemporalPlan extends AbstractPlan {
     @Override
     public int hashCode() {
         return Objects.hash(actions);
+    }
+
+    /**
+     *
+     *Considering the usual ordering in which both the tree and its nodes (which are sets) are traversed,
+     * this methods returns the order-th action
+     *
+     * @param order
+     * @return
+     */
+    public IntOp getActionByOrder (int order) {
+        int counter = 1;
+        Set<Double> keys = actions.keySet();
+        Iterator<Double> itk = keys.iterator();
+        while(itk.hasNext()) {
+            Double time = itk.next();
+            Set<IntOp> ita = this.getActionSet(time);
+            Iterator<IntOp> acs = ita.iterator();
+            while(acs.hasNext()){
+                IntOp action = acs.next();
+                if (counter == order)
+                    return action;
+                else counter++;
+
+            }
+        }
+        return null;
     }
 }

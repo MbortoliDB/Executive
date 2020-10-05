@@ -28,6 +28,7 @@ public class Planner {
         String s;
         Process p;
         boolean parseAction = false;
+        boolean parseTime = false;
         boolean finish = false;
 
         try {
@@ -43,7 +44,11 @@ public class Planner {
                 if (tokens.length > 3)
                     if (tokens[1].equals("Plan") && tokens[2].equals("found") )
                         System.out.println("plan found");
+                if (tokens.length > 2 && parseTime)
+                    if (!tokens[1].equals("Dummy"))
+                        parseAction = true;
                 if (parseAction) {
+                    System.out.println("++++++++++++++HERE+++++++++");
                     if (s.equals("")) {
                         parseAction = false;
                         finish = true;
@@ -69,14 +74,17 @@ public class Planner {
                                 }
                                 grAction.setDuration(duration);
                                 plan.add(time, grAction);
+                                System.out.println("+++++++++++++++ADDING ACTION TO THE PLAN+++++++++++++++++++++++");
                             }
                         }
                     }
                 }
-                if (tokens.length > 2)
-                    if (tokens[1].equals("Dummy") && tokens[2].equals("steps:") )
+                if (tokens.length > 2) {
+                    if (tokens[1].equals("Dummy") && tokens[2].equals("steps:"))
                         parseAction = true;
-
+                    else if (tokens[1].equals("Time"))
+                        parseTime = true;
+                }
                 System.out.println("line: " + s);
             }
             //p.waitFor();
