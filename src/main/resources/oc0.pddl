@@ -100,10 +100,6 @@
 )
 )
 
-(:constraints 
-	(always-within 45 (locked cs1) (n_locked cs1))
-
-)  
 
 (:metric minimize  (total-time) )
 

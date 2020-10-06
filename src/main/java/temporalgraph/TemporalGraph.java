@@ -77,15 +77,15 @@ public class TemporalGraph {
             }
         }
 
-        addEdges();
+        addEdges(start);
 
         //System.out.println(tgraph.toString());
 
-        System.out.println(" nodes: " + tgraph.vertexSet().size() + " edges: " + tgraph.edgeSet().size());
+        //System.out.println(" nodes: " + tgraph.vertexSet().size() + " edges: " + tgraph.edgeSet().size());
 
 
         DOTExporter<TemporalNode, TemporalEdge> exporter =
-                new DOTExporter<>(v -> v.getName().replace('(', '_').replace(')', '_').replace(',', '_') + "_" + v.getId());
+                new DOTExporter<>(v -> v.getName().replace('(', '_').replace(')', '_').replace(',', '_') + "_id_" + v.getId());
         exporter.setVertexAttributeProvider((v) -> {
             Map<String, Attribute> map = new LinkedHashMap<>();
             map.put("label", DefaultAttribute.createAttribute(v.toString()));
@@ -98,7 +98,7 @@ public class TemporalGraph {
 
     }
 
-    public void addEdges () {
+    public void addEdges (TemporalNode start) {
 
         Set<Double> keys = orderedActions.keySet();
         Iterator<Double> itk = keys.iterator();
@@ -156,6 +156,11 @@ public class TemporalGraph {
                 }
 
                 addInterferenceEdges(action, node, k);
+
+
+                if(!edge_created && node.getType() == 1) {
+                    tgraph.addEdge(start, node, new TemporalEdge(Double.MIN_VALUE, Double.MAX_VALUE, 1) );
+                }
 
             }
         }
@@ -244,7 +249,8 @@ public class TemporalGraph {
                                 interferes = interferes || satisfyPrecondition(cond2, action2.getAction().getInstantiations(), action.getAction(), action.getType(), false);
                             }
 
-                        } else if (node2.getId() == 2) {
+                        } else if (node2.getType() == 2) {
+
                             // determine if current_node negates at end condition of action end node
                             Iterator<IntExp> cit = action2.getAction().getPos_pred_atend().iterator();
                             while (cit.hasNext()){
@@ -324,7 +330,7 @@ public class TemporalGraph {
         }
 
 
-        return true;
+        return false;
     }
 
 

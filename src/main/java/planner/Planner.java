@@ -48,7 +48,6 @@ public class Planner {
                     if (!tokens[1].equals("Dummy"))
                         parseAction = true;
                 if (parseAction) {
-                    System.out.println("++++++++++++++HERE+++++++++");
                     if (s.equals("")) {
                         parseAction = false;
                         finish = true;
@@ -74,7 +73,6 @@ public class Planner {
                                 }
                                 grAction.setDuration(duration);
                                 plan.add(time, grAction);
-                                System.out.println("+++++++++++++++ADDING ACTION TO THE PLAN+++++++++++++++++++++++");
                             }
                         }
                     }
