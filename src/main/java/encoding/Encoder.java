@@ -210,7 +210,7 @@ public final class Encoder implements Serializable {
     /**
      * The initial state.
      */
-    static BitExp init;
+    static Set<IntExp> init;
 
     /**
      * Creates a new planner.
@@ -325,11 +325,11 @@ public final class Encoder implements Serializable {
         // Encode operators in integer representation
         List<IntOp> intOps = IntEncoding.encodeOperators(domain.getOperators());
         // Encode the initial state in integer representation
-        final Set<IntExp> intInit = IntEncoding.encodeInit(problem.getInit());
+        Encoder.init = IntEncoding.encodeInit(problem.getInit());
         // Create Map containing functions and associed cost from encoded initial state
-        final Map<IntExp, Double> intInitFunctionCost = IntEncoding.encodeFunctionCostInit(intInit);
+        final Map<IntExp, Double> intInitFunctionCost = IntEncoding.encodeFunctionCostInit(Encoder.init);
         // Create Set containing integer representation of initial state without functions and associed cost
-        final Set<IntExp> intInitPredicates = IntEncoding.removeFunctionCost(intInit);
+        final Set<IntExp> intInitPredicates = IntEncoding.removeFunctionCost(Encoder.init);
 
         // Encode the goal in integer representation
         final IntExp intGoal = IntEncoding.encodeGoal(problem.getGoal());
@@ -616,7 +616,7 @@ public final class Encoder implements Serializable {
     /**
      * Print the table of functions.
      */
-    static void printTableOfFunctions(StringBuilder stringBuilder) {
+    public static void printTableOfFunctions(StringBuilder stringBuilder) {
         stringBuilder.append("Functions table:\n");
         for (int i = 0; i < Encoder.tableOfFunctions.size(); i++) {
             String predicate = Encoder.tableOfFunctions.get(i);

@@ -110,7 +110,7 @@ public class CodedProblem implements Serializable {
     /**
      * The initial state.
      */
-    private BitExp init;
+    private Set<IntExp> init;
 
     /**
      * The default constructor with a private package access to prevent instance creation.
@@ -155,7 +155,7 @@ public class CodedProblem implements Serializable {
         this.operators = new ArrayList<>();
         this.operators.addAll(other.operators.stream().map(IntOp::new).collect(Collectors.toList()));
         this.goal = new BitExp(other.goal);
-        this.init = new BitExp(other.init);
+        this.init = new LinkedHashSet<>(other.init);
     }
 
     /**
@@ -389,7 +389,7 @@ public class CodedProblem implements Serializable {
      *
      * @return the initial state of the problem.
      */
-    public final BitExp getInit() {
+    public final Set<IntExp> getInit() {
         return this.init;
     }
 
@@ -398,7 +398,7 @@ public class CodedProblem implements Serializable {
      *
      * @param init the initial state to set.
      */
-    final void setInit(final BitExp init) {
+    final void setInit(final Set<IntExp> init) {
         this.init = init;
     }
 

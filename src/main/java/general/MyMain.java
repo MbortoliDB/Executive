@@ -1,23 +1,20 @@
 package general;
 
+import dispatcher.Dispatcher;
 import encoding.CodedProblem;
 import encoding.Encoder;
 import encoding.IntOp;
 import parser.*;
 
 import java.io.FileNotFoundException;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import planner.Planner;
-import sun.awt.geom.AreaOp;
-import temporalgraph.TemporalGraph;
-import util.BitOp;
-import util.TemporalPlan;
+import planparser.TemporalGraph;
+import util.IntExp;
 
 
 public class MyMain {
@@ -59,25 +56,14 @@ public class MyMain {
         CodedProblem cp;
         try {
            cp = Encoder.encode(domain, problem);
-            List<IntOp> op = cp.getOperators();
-            Iterator<IntOp> it = op.iterator();
-            IntOp n = null;
-            while (it.hasNext()) {
-                IntOp i = it.next();
-                if (i.getName().equals("toy1"));
-                    n = new IntOp(i);
-                //LOGGER.trace("name " + i.getName() + " ");
-                //for(int j=0; j < i.getInstantiations().length; j++)
-                  //  LOGGER.trace(i.getInstantiations()[j] + " ");
-                //LOGGER.trace("\n");
-            }
+
 
             Planner pl = new Planner(domainS,problemS,cp);
             pl.plan();
 
             StringBuilder b = new StringBuilder();
             Encoder.printTableOfPredicates(b);
-            LOGGER.trace("+++++" + b);
+            //LOGGER.trace("+++++" + b);
 
             Set<Double> keys = pl.getPlan().actions().keySet();
             Iterator<Double> itk = keys.iterator();
@@ -100,23 +86,19 @@ public class MyMain {
             TemporalGraph tg = new TemporalGraph(cp,pl.getPlan());
             tg.createTemporalGraph();
 
-            //plan.add(10,n);
 
-            //pl.printPlan();
-
-
-
-            /*
-            StringBuilder stringBuilder = new StringBuilder();
-            Encoder.printTableOfConstants(stringBuilder);
-            LOGGER.trace("predicates table " + stringBuilder);
-            */
+            Set<IntExp> init = cp.getInit();
+            Iterator i = init.iterator();
+            //while(i.hasNext()){
+            //}
 
 
+            //LOGGER.trace(init);
 
-            //LOGGER.trace("plan " + s);
+            Dispatcher d = new Dispatcher(0.0, tg, pl.getPlan().actions());
+            d.dispatch();
 
-            //LOGGER.trace("objects" + cp.getConstants() + "\n");
+
 
 
 

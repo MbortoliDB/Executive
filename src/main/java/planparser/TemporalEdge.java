@@ -1,4 +1,4 @@
-package temporalgraph;
+package planparser;
 
 import org.jgrapht.graph.DefaultEdge;
 

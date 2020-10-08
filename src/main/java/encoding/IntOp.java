@@ -358,4 +358,15 @@ final public class IntOp extends AbstractCodedOp {
     public List<IntExp> getPos_eff_overall() {
         return pos_eff_overall;
     }
+
+    public String toString () {
+        String s = name + "(";
+        for (int i=0; i<instantiations.length; i++) {
+            s += instantiations[i];
+            if (i<instantiations.length-1)
+                s +=",";
+        }
+        s += ")";
+        return s;
+    }
 }

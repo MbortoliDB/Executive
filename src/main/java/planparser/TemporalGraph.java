@@ -1,10 +1,8 @@
-package temporalgraph;
+package planparser;
 
 import encoding.CodedProblem;
 import encoding.IntOp;
-import org.apache.commons.collections4.MultiMap;
 import org.apache.commons.collections4.iterators.ReverseListIterator;
-import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
@@ -93,7 +91,7 @@ public class TemporalGraph {
         });
         Writer writer = new StringWriter();
         exporter.exportGraph(tgraph, writer);
-        System.out.println(writer.toString());
+        //System.out.println(writer.toString());
 
 
     }

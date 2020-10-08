@@ -292,4 +292,29 @@ public class IntExp implements Serializable {
         return result;
     }
 
+    public String toString () {
+        String build = "";
+        if (connective == Connective.ATOM) {
+            build += "Predicate: " + predicate + "(";
+            for(int j=0; j<arguments.length; j++){
+                build += arguments[j] + ",";
+            }
+            build += ")\n";
+        }
+        else if (connective == Connective.FN_ATOM) {
+            build += "Function: " + children.toString() + "\n";
+        } else if (connective == Connective.FN_HEAD) {
+            build += predicate + "(";
+            for(int j=0; j<arguments.length; j++){
+                build += arguments[j] + ",";
+            }
+            build += ")";
+        } else if (connective == Connective.NUMBER) {
+            build += value;
+        } else {
+            build += "method not yet implemented for this kind of IntExp";
+        }
+        return build;
+    }
+
 }

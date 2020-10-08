@@ -1,4 +1,4 @@
-package temporalgraph;
+package planparser;
 
 public class TemporalNode {
 
