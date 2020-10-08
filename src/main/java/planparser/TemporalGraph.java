@@ -73,7 +73,7 @@ public class TemporalGraph {
                 }
                 buff.add(new ExtIntOp(i,2, graphSize - 1));
 
-
+  
             }
         }
 
