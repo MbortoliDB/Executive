@@ -1,5 +1,6 @@
 package dispatcher;
 
+import encoding.Encoder;
 import encoding.IntOp;
 import util.IntExp;
 
@@ -32,18 +33,6 @@ public class ActionDispatch extends TimerTask {
                 e.setArguments(arg);
             }
 
-            List<IntExp> pos_overall = action.getPos_pred_overall();
-            pre_iterator = pos_overall.iterator();
-            while (pre_iterator.hasNext()) {
-                IntExp e = pre_iterator.next();
-                int[] arg = new int[e.getArguments().length];
-                int x;
-                for (int i = 0; i < arg.length; i++) {
-                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
-                }
-                e.setArguments(arg);
-            }
-
             List<IntExp> neg_start = action.getNeg_pred_atstart();
             pre_iterator = neg_start.iterator();
             while (pre_iterator.hasNext()) {
@@ -56,8 +45,8 @@ public class ActionDispatch extends TimerTask {
                 e.setArguments(arg);
             }
 
-            List<IntExp> neg_overall = action.getNeg_pred_overall();
-            pre_iterator = neg_overall.iterator();
+            List<IntExp> pos_start_eff = action.getPos_eff_atstart();
+            pre_iterator = pos_start_eff.iterator();
             while (pre_iterator.hasNext()) {
                 IntExp e = pre_iterator.next();
                 int[] arg = new int[e.getArguments().length];
@@ -67,12 +56,106 @@ public class ActionDispatch extends TimerTask {
                 }
                 e.setArguments(arg);
             }
+
+            List<IntExp> neg_start_eff = action.getNeg_eff_atstart();
+            pre_iterator = neg_start_eff.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+
+
+
+        } else if (type == 2) {
+
+            List<IntExp> pos_end = action.getPos_pred_atend();
+            Iterator<IntExp> pre_iterator = pos_end.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+            List<IntExp> neg_end = action.getNeg_pred_atend();
+            pre_iterator = neg_end.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+            List<IntExp> pos_end_eff = action.getPos_eff_atend();
+            pre_iterator = pos_end_eff.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+            List<IntExp> neg_end_eff = action.getNeg_eff_atend();
+            pre_iterator = neg_end_eff.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+
+        }
+
+        List<IntExp> pos_overall = action.getPos_pred_overall();
+        Iterator<IntExp> pre_iterator = pos_overall.iterator();
+        while (pre_iterator.hasNext()) {
+            IntExp e = pre_iterator.next();
+            int[] arg = new int[e.getArguments().length];
+            int x;
+            for (int i = 0; i < arg.length; i++) {
+                arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+            }
+            e.setArguments(arg);
+        }
+
+
+
+        List<IntExp> neg_overall = action.getNeg_pred_overall();
+        pre_iterator = neg_overall.iterator();
+        while (pre_iterator.hasNext()) {
+            IntExp e = pre_iterator.next();
+            int[] arg = new int[e.getArguments().length];
+            int x;
+            for (int i = 0; i < arg.length; i++) {
+                arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+            }
+            e.setArguments(arg);
         }
     }
 
     @Override
     public void run() {
         if (type == 1) {
+
             //checking pos atstart precondition
             List<IntExp> pos_start = action.getPos_pred_atstart();
             boolean satisfied = true;
@@ -114,10 +197,11 @@ public class ActionDispatch extends TimerTask {
                     satisfied = false;
                 }
             }
-            if (satisfied)
+            if (satisfied) {
                 System.out.println("Time: " + time + " - Dispacting action " + action);
-            else
-                System.out.println("Time: " + time + " - action " + action + " does not satisfy precondition");
+                updateKB(1);
+            } else
+                System.out.println("Time: " + time + " - action " + action + " does not satisfy starting precondition");
         } else if (type == 2) { //end action
             //checking pos atend precondition
             List<IntExp> pos_end = action.getPos_pred_atend();
@@ -160,8 +244,30 @@ public class ActionDispatch extends TimerTask {
                     satisfied = false;
                 }
             }
-            if (satisfied)
+            if (satisfied) {
+                updateKB(2);
                 System.out.println("Time: " + time + " - Finishing action " + action);
+            } else
+                System.out.println("Time: " + time + " - action " + action + " does not satisfy ending precondition");
+        }
+    }
+
+
+    public void updateKB (int type) {
+        if (type == 1) {
+            //adding pos eff atstart
+            List<IntExp> pos_eff = action.getPos_eff_atstart();
+            Dispatcher.kb.addAll(pos_eff);
+            //removing neg eff atstart
+            List<IntExp> neg_eff = action.getNeg_eff_atstart();
+            Dispatcher.kb.removeAll(neg_eff);
+        } else if (type == 2) {
+            //adding pos eff atend
+            List<IntExp> pos_eff = action.getPos_eff_atend();
+            Dispatcher.kb.addAll(pos_eff);
+            //removing neg eff atstart
+            List<IntExp> neg_eff = action.getNeg_eff_atend();
+            Dispatcher.kb.removeAll(neg_eff);
         }
     }
 
