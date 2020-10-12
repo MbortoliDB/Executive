@@ -2,22 +2,25 @@ package dispatcher;
 
 import encoding.IntOp;
 import planparser.TemporalGraph;
+import util.IntExp;
 
 import java.util.*;
 
 public class Dispatcher {
 
-    double currentTime;
-    Timer timer;
-    TreeMap<Double, Set<ActionDispatch>> actionStarter;
-    TreeMap<Double, Set<ActionDispatch>> actionFinisher;
-    TemporalGraph tgraph;
+    private double currentTime;
+    private Timer timer;
+    private TreeMap<Double, Set<ActionDispatch>> actionStarter;
+    private TreeMap<Double, Set<ActionDispatch>> actionFinisher;
+    private TemporalGraph tgraph;
+    static Set<IntExp> kb;   //knowledge base, to be implemented in future with spring db to ensure synchronization
 
-    public Dispatcher(Double currentTime,  TemporalGraph tgraph, TreeMap<Double, Set<IntOp>> plan) {
+    public Dispatcher(Double currentTime,  TemporalGraph tgraph, TreeMap<Double, Set<IntOp>> plan, Set<IntExp> kb) {
         this.currentTime = currentTime;
         this.tgraph = tgraph;
         actionStarter = new TreeMap<>();
         actionFinisher = new TreeMap<>();
+        this.kb = kb;
 
         for (Map.Entry<Double, Set<IntOp>> entry : plan.entrySet()) {
             Set<IntOp> seti = entry.getValue();
@@ -36,11 +39,9 @@ public class Dispatcher {
                 actionStarter.put(entry.getKey() + i.getDuration() , toAddF);
             }
             actionStarter.put(entry.getKey(), toAdd);
-
-
-
-
         }
+
+
 
     }
 
@@ -54,6 +55,8 @@ public class Dispatcher {
                 timer.schedule(i,  Math.round(entry.getKey()*1000)) ;   //from seconds in double to ms in long
             }
         }
+
+        /*
         for (Map.Entry<Double, Set<ActionDispatch>> entry : actionFinisher.entrySet()) {
             Set<ActionDispatch> seti = entry.getValue();
             Iterator<ActionDispatch> setIt = seti.iterator();
@@ -61,7 +64,7 @@ public class Dispatcher {
                 ActionDispatch i = setIt.next();
                 timer.schedule(i,  Math.round(entry.getKey()*1000)) ;   //from seconds in double to ms in long
             }
-        }
+        }*/
     }
 
     public void setCurrentTime(double currentTime) {

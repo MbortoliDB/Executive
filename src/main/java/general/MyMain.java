@@ -95,7 +95,7 @@ public class MyMain {
 
             //LOGGER.trace(init);
 
-            Dispatcher d = new Dispatcher(0.0, tg, pl.getPlan().actions());
+            Dispatcher d = new Dispatcher(0.0, tg, pl.getPlan().actions(), cp.getInit());
             d.dispatch();
 
 

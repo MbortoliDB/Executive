@@ -270,6 +270,12 @@ public class IntExp implements Serializable {
         return false;
     }
 
+    public boolean customEquals(IntExp e){
+        return this.connective.equals(e.connective)
+                    && this.predicate == e.predicate
+                    && Arrays.equals(this.arguments, e.arguments);
+    }
+
     /**
      * Return the hash code value of the expression.
      *
