@@ -69,6 +69,32 @@ public class ActionDispatch extends TimerTask {
                 e.setArguments(arg);
             }
 
+            List<IntExp> pos_overall = action.getPos_pred_overall();
+            pre_iterator = pos_overall.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+
+
+            List<IntExp> neg_overall = action.getNeg_pred_overall();
+            pre_iterator = neg_overall.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
 
 
 
@@ -125,31 +151,7 @@ public class ActionDispatch extends TimerTask {
 
         }
 
-        List<IntExp> pos_overall = action.getPos_pred_overall();
-        Iterator<IntExp> pre_iterator = pos_overall.iterator();
-        while (pre_iterator.hasNext()) {
-            IntExp e = pre_iterator.next();
-            int[] arg = new int[e.getArguments().length];
-            int x;
-            for (int i = 0; i < arg.length; i++) {
-                arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
-            }
-            e.setArguments(arg);
-        }
 
-
-
-        List<IntExp> neg_overall = action.getNeg_pred_overall();
-        pre_iterator = neg_overall.iterator();
-        while (pre_iterator.hasNext()) {
-            IntExp e = pre_iterator.next();
-            int[] arg = new int[e.getArguments().length];
-            int x;
-            for (int i = 0; i < arg.length; i++) {
-                arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
-            }
-            e.setArguments(arg);
-        }
     }
 
     @Override
@@ -159,12 +161,19 @@ public class ActionDispatch extends TimerTask {
             //checking pos atstart precondition
             List<IntExp> pos_start = action.getPos_pred_atstart();
             boolean satisfied = true;
-            if(!Dispatcher.kb.containsAll(pos_start))
+            if(!Dispatcher.kb.containsAll(pos_start)) {
                 satisfied = false;
+            }
             //checking overall pos precondition
             List<IntExp> pos_overall = action.getPos_pred_overall();
-            if(!Dispatcher.kb.containsAll(pos_overall))
+            if(!Dispatcher.kb.containsAll(pos_overall)) {
                 satisfied = false;
+                /*
+                if (action.toString().equals("getbasefrombscriticaltask(7,1,10)")) {
+                    System.out.println("KB: " + Dispatcher.kb);
+                    System.out.println("To check: " + pos_overall);
+                }*/
+            }
             //checking neg atstart precondition
             List<IntExp> neg_start = action.getNeg_pred_atstart();
             Iterator<IntExp> kb_iterator = Dispatcher.kb.iterator();

@@ -25,20 +25,25 @@ public class Dispatcher {
         for (Map.Entry<Double, Set<IntOp>> entry : plan.entrySet()) {
             Set<IntOp> seti = entry.getValue();
             Iterator<IntOp> setIt = seti.iterator();
-            Set<ActionDispatch> toAdd = new HashSet<>();
             while (setIt.hasNext()) {
                 IntOp i = setIt.next();
+                Set<ActionDispatch> toAdd;
+                if(actionStarter.containsKey(entry.getKey() ))
+                    toAdd = actionStarter.get(entry.getKey());
+                else
+                    toAdd = new HashSet<>();
                 toAdd.add(new ActionDispatch(entry.getKey(), i, 1));
+                actionStarter.put(entry.getKey(), toAdd);
                 Set<ActionDispatch> toAddF;
-                if(actionFinisher.containsKey(entry.getKey() + i.getDuration() )) {
-                    toAddF = actionFinisher.get(entry.getKey() + i.getDuration());
+                if(actionStarter.containsKey(entry.getKey() + i.getDuration() )) {
+                    toAddF = actionStarter.get(entry.getKey() + i.getDuration());
                 } else {
                     toAddF = new HashSet<>();
                 }
                 toAddF.add(new ActionDispatch(entry.getKey() + i.getDuration() , i, 2));
                 actionStarter.put(entry.getKey() + i.getDuration() , toAddF);
             }
-            actionStarter.put(entry.getKey(), toAdd);
+
         }
 
 
