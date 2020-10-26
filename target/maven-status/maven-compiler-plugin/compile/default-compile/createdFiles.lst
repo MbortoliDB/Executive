@@ -67,6 +67,7 @@ parser/lexer/Lexer$1.class
 encoding/PreInstantiation$1.class
 parser/DerivedPredicate.class
 util/BitExp.class
+dispatcher/Dispatcher$UnexpEvent.class
 parser/lexer/LexerConstants.class
 util/BitVector.class
 encoding/PostInstantiation.class

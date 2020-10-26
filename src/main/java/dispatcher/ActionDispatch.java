@@ -207,7 +207,7 @@ public class ActionDispatch extends TimerTask {
                 }
             }
             if (satisfied) {
-                System.out.println("Time: " + time + " - Dispacting action " + action);
+                System.out.println("Time: " + time + " Timer: " + (System.currentTimeMillis() - Dispatcher.timerStarting) +  " - Dispacting action " + action);
                 updateKB(1);
             } else
                 System.out.println("Time: " + time + " - action " + action + " does not satisfy starting precondition");
@@ -255,7 +255,7 @@ public class ActionDispatch extends TimerTask {
             }
             if (satisfied) {
                 updateKB(2);
-                System.out.println("Time: " + time + " - Finishing action " + action);
+                System.out.println("Time: " + time + " Timer: " + (System.currentTimeMillis() - Dispatcher.timerStarting) + " - Finishing action " + action);
             } else
                 System.out.println("Time: " + time + " - action " + action + " does not satisfy ending precondition");
         }

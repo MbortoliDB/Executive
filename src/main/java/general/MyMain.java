@@ -97,7 +97,7 @@ public class MyMain {
 
             Dispatcher d = new Dispatcher(0.0, tg, pl.getPlan().actions(), cp.getInit());
             d.dispatch();
-
+            d.generatorUnexpEvents();
 
 
 

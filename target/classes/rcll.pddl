@@ -52,7 +52,7 @@
 
 (:durative-action lockStation
 	:parameters (?s - station)
-	:duration (= ?duration 0) 
+	:duration (= ?duration 0.1) 
 	:condition (and
 		(at start (n_locked ?s))
 	)

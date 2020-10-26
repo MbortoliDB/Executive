@@ -9,6 +9,7 @@ import java.util.*;
 public class Dispatcher {
 
     private double currentTime;
+    static long timerStarting;
     private Timer timer;
     private TreeMap<Double, Set<ActionDispatch>> actionStarter;
     private TreeMap<Double, Set<ActionDispatch>> actionFinisher;
@@ -19,8 +20,9 @@ public class Dispatcher {
         this.currentTime = currentTime;
         this.tgraph = tgraph;
         actionStarter = new TreeMap<>();
-        actionFinisher = new TreeMap<>();
+        //actionFinisher = new TreeMap<>();
         this.kb = kb;
+
 
         for (Map.Entry<Double, Set<IntOp>> entry : plan.entrySet()) {
             Set<IntOp> seti = entry.getValue();
@@ -52,6 +54,7 @@ public class Dispatcher {
 
     public void dispatch () {
         timer = new Timer();
+        timerStarting = System.currentTimeMillis();
         for (Map.Entry<Double, Set<ActionDispatch>> entry : actionStarter.entrySet()) {
             Set<ActionDispatch> seti = entry.getValue();
             Iterator<ActionDispatch> setIt = seti.iterator();
@@ -72,6 +75,16 @@ public class Dispatcher {
         }*/
     }
 
+
+    public void generatorUnexpEvents () {
+        double unexpc1 = 7;
+        double unexpc2;
+        double unexpc3;
+        //timer.schedule(new UnexpEvent(1, actionStarter.lastEntry().getValue().iterator().next()), Math.round(unexpc1*1000));
+    }
+
+
+
     public void setCurrentTime(double currentTime) {
         this.currentTime = currentTime;
     }
@@ -85,5 +98,25 @@ public class Dispatcher {
 
     public void timerStop () {
         timer.cancel();
+    }
+
+    public class UnexpEvent extends TimerTask {
+
+        private int type;
+        private ActionDispatch a;
+
+        public UnexpEvent(int type, ActionDispatch a) {
+            this.type = type;
+            this.a = a;
+        }
+
+        @Override
+        public void run() {
+            handleUnexpEvent();
+        }
+
+        public void handleUnexpEvent () {           //this method will be part of the upper class, placed here just for testing purposes
+            a.cancel();
+        }
     }
 }
