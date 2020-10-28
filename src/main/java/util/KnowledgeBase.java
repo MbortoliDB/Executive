@@ -25,12 +25,12 @@ public class KnowledgeBase {
         //checking pos atstart precondition
         List<IntExp> pos_start = action.getPos_pred_atstart();
         boolean satisfied = true;
-        if(kb.containsAll(pos_start)) {
+        if(!kb.containsAll(pos_start)) {
             satisfied = false;
         }
         //checking overall pos precondition
         List<IntExp> pos_overall = action.getPos_pred_overall();
-        if(kb.containsAll(pos_overall)) {
+        if(!kb.containsAll(pos_overall)) {
             satisfied = false;
             /*
             if (action.toString().equals("getbasefrombscriticaltask(7,1,10)")) {
@@ -82,11 +82,11 @@ public class KnowledgeBase {
         //checking pos atend precondition
         List<IntExp> pos_end = action.getPos_pred_atend();
         boolean satisfied = true;
-        if(kb.containsAll(pos_end))
+        if(!kb.containsAll(pos_end))
             satisfied = false;
         //checking overall pos precondition
         List<IntExp> pos_overall = action.getPos_pred_overall();
-        if(kb.containsAll(pos_overall))
+        if(!kb.containsAll(pos_overall))
             satisfied = false;
         //checking neg end precondition
         List<IntExp> neg_end = action.getNeg_pred_atend();
@@ -130,7 +130,7 @@ public class KnowledgeBase {
      * @param action
      * @param type
      */
-    public static IntOp normalizeAction (IntOp action, int type) {
+    public static void normalizeAction (IntOp action, int type) {
 
         if (type==1) {
             List<IntExp> pos_start = action.getPos_pred_atstart();
@@ -260,7 +260,7 @@ public class KnowledgeBase {
                 e.setArguments(arg);
             }
         }
-        return action;
+        //return action;
     }
 
     /**
