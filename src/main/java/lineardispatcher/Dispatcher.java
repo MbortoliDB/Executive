@@ -1,8 +1,9 @@
-package dispatcher;
+package lineardispatcher;
 
 import encoding.IntOp;
 import planparser.TemporalGraph;
 import util.IntExp;
+import util.KnowledgeBase;
 
 import java.util.*;
 
@@ -14,14 +15,14 @@ public class Dispatcher {
     private TreeMap<Double, Set<ActionDispatch>> actionStarter;
     private TreeMap<Double, Set<ActionDispatch>> actionFinisher;
     private TemporalGraph tgraph;
-    static Set<IntExp> kb;   //knowledge base, to be implemented in future with spring db to ensure synchronization
 
     public Dispatcher(Double currentTime,  TemporalGraph tgraph, TreeMap<Double, Set<IntOp>> plan, Set<IntExp> kb) {
         this.currentTime = currentTime;
         this.tgraph = tgraph;
         actionStarter = new TreeMap<>();
         //actionFinisher = new TreeMap<>();
-        this.kb = kb;
+        KnowledgeBase.init(kb);
+
 
 
         for (Map.Entry<Double, Set<IntOp>> entry : plan.entrySet()) {

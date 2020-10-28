@@ -1,6 +1,6 @@
 package general;
 
-import dispatcher.Dispatcher;
+import lineardispatcher.Dispatcher;
 import encoding.CodedProblem;
 import encoding.Encoder;
 import encoding.IntOp;
@@ -95,9 +95,10 @@ public class MyMain {
 
             //LOGGER.trace(init);
 
+            //do not cancel, linear dispatcher
             Dispatcher d = new Dispatcher(0.0, tg, pl.getPlan().actions(), cp.getInit());
             d.dispatch();
-            d.generatorUnexpEvents();
+            //d.generatorUnexpEvents();
 
 
 

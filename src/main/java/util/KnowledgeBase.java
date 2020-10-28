@@ -1,2 +1,289 @@
-package util;public class KnowledgeBase {
+package util;
+
+import encoding.IntOp;
+import lineardispatcher.Dispatcher;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+public class KnowledgeBase {
+
+    static Set<IntExp> kb;   //knowledge base, to be implemented in future with spring db to ensure synchronization
+
+
+    public static void init (Set<IntExp> kb) {
+        KnowledgeBase.kb = kb;
+    }
+
+    /**
+     * check if start precondition of action are satisfied
+     * @param action
+     * @return
+     */
+    public static boolean checkPrecondStart (IntOp action) {
+        //checking pos atstart precondition
+        List<IntExp> pos_start = action.getPos_pred_atstart();
+        boolean satisfied = true;
+        if(kb.containsAll(pos_start)) {
+            satisfied = false;
+        }
+        //checking overall pos precondition
+        List<IntExp> pos_overall = action.getPos_pred_overall();
+        if(kb.containsAll(pos_overall)) {
+            satisfied = false;
+            /*
+            if (action.toString().equals("getbasefrombscriticaltask(7,1,10)")) {
+                System.out.println("KB: " + Dispatcher.kb);
+                System.out.println("To check: " + pos_overall);
+            }*/
+        }
+        //checking neg atstart precondition
+        List<IntExp> neg_start = action.getNeg_pred_atstart();
+        Iterator<IntExp> kb_iterator = kb.iterator();
+        Iterator<IntExp> pre_iterator = neg_start.iterator();
+        while(pre_iterator.hasNext() && satisfied){
+            IntExp prec_exp = pre_iterator.next();
+            IntExp kb_exp = null;
+            boolean prec_satisfied = true;
+            while(kb_iterator.hasNext() && !prec_satisfied){
+                kb_exp = kb_iterator.next();
+                prec_satisfied = kb_exp.equals(prec_exp);
+            }
+            if (!prec_satisfied) {
+                satisfied = false;
+            }
+        }
+        //checking neg overall precondition
+        List<IntExp> neg_overall = action.getNeg_pred_overall();
+        kb_iterator = kb.iterator();
+        pre_iterator = neg_overall.iterator();
+        while(pre_iterator.hasNext() && satisfied){
+            IntExp prec_exp = pre_iterator.next();
+            IntExp kb_exp = null;
+            boolean prec_satisfied = true;
+            while(kb_iterator.hasNext() && !prec_satisfied){
+                kb_exp = kb_iterator.next();
+                prec_satisfied = kb_exp.equals(prec_exp);
+            }
+            if (!prec_satisfied) {
+                satisfied = false;
+            }
+        }
+        return satisfied;
+    }
+
+    /**
+     * check if end precondition of action are satisfied
+     * @param action
+     * @return
+     */
+    public static boolean checkPrecondEnd (IntOp action) {
+        //checking pos atend precondition
+        List<IntExp> pos_end = action.getPos_pred_atend();
+        boolean satisfied = true;
+        if(kb.containsAll(pos_end))
+            satisfied = false;
+        //checking overall pos precondition
+        List<IntExp> pos_overall = action.getPos_pred_overall();
+        if(kb.containsAll(pos_overall))
+            satisfied = false;
+        //checking neg end precondition
+        List<IntExp> neg_end = action.getNeg_pred_atend();
+        Iterator<IntExp> kb_iterator = kb.iterator();
+        Iterator<IntExp> pre_iterator = neg_end.iterator();
+        while(pre_iterator.hasNext() && satisfied){
+            IntExp prec_exp = pre_iterator.next();
+            IntExp kb_exp = null;
+            boolean prec_satisfied = true;
+            while(kb_iterator.hasNext() && !prec_satisfied){
+                kb_exp = kb_iterator.next();
+                prec_satisfied = kb_exp.equals(prec_exp);
+            }
+            if (!prec_satisfied) {
+                satisfied = false;
+            }
+        }
+        //checking neg overall precondition
+        List<IntExp> neg_overall = action.getNeg_pred_overall();
+        kb_iterator = kb.iterator();
+        pre_iterator = neg_overall.iterator();
+        while(pre_iterator.hasNext() && satisfied){
+            IntExp prec_exp = pre_iterator.next();
+            IntExp kb_exp = null;
+            boolean prec_satisfied = true;
+            while(kb_iterator.hasNext() && !prec_satisfied){
+                kb_exp = kb_iterator.next();
+                prec_satisfied = kb_exp.equals(prec_exp);
+            }
+            if (!prec_satisfied) {
+                satisfied = false;
+            }
+        }
+        return satisfied;
+    }
+
+
+
+    /**
+     * normalize the values of the parameter to the actual values of objects
+     * @param action
+     * @param type
+     */
+    public static IntOp normalizeAction (IntOp action, int type) {
+
+        if (type==1) {
+            List<IntExp> pos_start = action.getPos_pred_atstart();
+            Iterator<IntExp> pre_iterator = pos_start.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+            List<IntExp> neg_start = action.getNeg_pred_atstart();
+            pre_iterator = neg_start.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+            List<IntExp> pos_start_eff = action.getPos_eff_atstart();
+            pre_iterator = pos_start_eff.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+            List<IntExp> neg_start_eff = action.getNeg_eff_atstart();
+            pre_iterator = neg_start_eff.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+            List<IntExp> pos_overall = action.getPos_pred_overall();
+            pre_iterator = pos_overall.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+
+
+            List<IntExp> neg_overall = action.getNeg_pred_overall();
+            pre_iterator = neg_overall.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+
+
+
+        } else if (type == 2) {
+
+            List<IntExp> pos_end = action.getPos_pred_atend();
+            Iterator<IntExp> pre_iterator = pos_end.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+            List<IntExp> neg_end = action.getNeg_pred_atend();
+            pre_iterator = neg_end.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+            List<IntExp> pos_end_eff = action.getPos_eff_atend();
+            pre_iterator = pos_end_eff.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+
+            List<IntExp> neg_end_eff = action.getNeg_eff_atend();
+            pre_iterator = neg_end_eff.iterator();
+            while (pre_iterator.hasNext()) {
+                IntExp e = pre_iterator.next();
+                int[] arg = new int[e.getArguments().length];
+                int x;
+                for (int i = 0; i < arg.length; i++) {
+                    arg[i] = action.getInstantiations()[Math.abs(e.getArguments()[i]) - 1];
+                }
+                e.setArguments(arg);
+            }
+        }
+        return action;
+    }
+
+    /**
+     * apply the effect of an action to the knowledge base
+     * @param type
+     * @param action
+     */
+    public static void updateKB (int type, IntOp action) {
+        if (type == 1) {
+            //adding pos eff atstart
+            List<IntExp> pos_eff = action.getPos_eff_atstart();
+            kb.addAll(pos_eff);
+            //removing neg eff atstart
+            List<IntExp> neg_eff = action.getNeg_eff_atstart();
+            kb.removeAll(neg_eff);
+        } else if (type == 2) {
+            //adding pos eff atend
+            List<IntExp> pos_eff = action.getPos_eff_atend();
+            kb.addAll(pos_eff);
+            //removing neg eff atstart
+            List<IntExp> neg_eff = action.getNeg_eff_atend();
+            kb.removeAll(neg_eff);
+        }
+    }
+
 }
